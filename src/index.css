@@ -1,0 +1,15 @@
+@import "tailwindcss";
+@theme{
+    
+}
+
+body{
+    font-family: 'Satoshi', sans-serif;
+    background-color: #FBFBFF;
+}
+
+::placeholder{
+    color: #686868;
+    font-weight: 400;
+    font-size: 16px;
+}
