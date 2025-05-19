@@ -26,7 +26,6 @@ function Card({details}) {
       };
     register("custom-en", customLocale);
     const desc = details?.description.split("\n")
-    console.log(desc)
   return (
     <div className='flex gap-5 h-[388px] flex-col rounded-[12px] bg-white shadow-xs py-4 px-4'>
         <div className='flex justify-between'>
