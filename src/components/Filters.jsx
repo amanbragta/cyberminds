@@ -9,10 +9,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getPostings } from '../../store/postingSlice.js'
 
 function Filters() {
-    const [values,setValues] = useState([0,15])
+    const [values,setValues] = useState([0,100])
     const [jobTitle,setJobTitle] = useState('')
     const [location,setLocation] = useState('')
     const [open,setOpen] = useState(false)
+    const [openLocation,setOpenLocation] = useState(false)
     const [selected,setSelected] = useState(null)
     const query = useQueryClient()
     const {postings} = useSelector(state=>state.posting)
@@ -24,6 +25,16 @@ function Filters() {
 
     const data = query.getQueryData(['postings'])
     const salArr = postings.map(item=>item.salary).flat().map(element=>parseInt(element)/12/1000)
+    const locationArr = data?.data.map(item=>item.location)
+    const locationOBj = {}
+    if(locationArr){
+      for(const location of locationArr){
+        if(locationOBj[location]) continue
+        locationOBj[location] = 1
+      }
+    }
+    
+   
 
     function handleJobFilter(e){
       if(e.key==="Enter"){
@@ -34,21 +45,25 @@ function Filters() {
         })
       }
     }
-    function handleLocationFilter(e){
-      if(e.key==="Enter"){
-        const regex = new RegExp(location,'i')
-        const newData = data.data.filter(item=>regex.test(item.location))
+
+    function handleLocationFilter(location){
+        const newData = data.data.filter(item=>item.location==location)
         query.setQueryData(['postings'],(oldData)=>{
           return {...oldData,data:newData}
         })
-      }
+        setLocation(location)
+        setOpenLocation(false)
     }
-    function handleJobType(){
-      const regex = new RegExp(selected,'i')
-      const newData = data.data.filter(item=>regex.test(item.type))
+
+    function handleJobType(type){
+      // const regex = new RegExp(selected,'i')
+      // const newData = data.data.filter(item=>regex.test(item.type))
+      const newData = postings.filter(item=>item.type===type)
       query.setQueryData(['postings'],(oldData)=>{
         return {...oldData,data:newData}
       })
+      setSelected(type)
+      setOpen(false)
     }
     function handleSlider(){
       const newData = postings.filter(item=> item.salary[0]/1000/12>=values[0] && Math.floor(item.salary[1]/1000/12)<=values[1])
@@ -64,15 +79,28 @@ function Filters() {
             </div>
             <span className='w-[200px]'><input type='text' onKeyDown={handleJobFilter} value={jobTitle} onChange={(e)=>setJobTitle(e.target.value)} placeholder='Search By Job Title, Role' className='bg-transparent outline-none w-full'/></span>
         </div>
-        <span className='text-[48px] text-[#EAEAEA] font- hidden lg:block'>|</span>
-        <div className='flex items-center gap-7 justify-center'>
+        <span className='text-[48px] text-[#EAEAEA] font-extralight hidden lg:block'>|</span>
+        <div className='flex items-center lg:gap-7 justify-center relative'>
             <div>
             <img src={locationIcon} alt='' width='18px' height='18px'/>
             </div>
-            <div className='flex'>
-            <span className=''><input type='text' onKeyDown={handleLocationFilter} value={location} onChange={(e)=>setLocation(e.target.value)} placeholder='Preferred Location' className='bg-transparent outline-none w-full'/></span>
-                
+            <div className='flex w-[233px]'>
+              <button onClick={()=>setOpenLocation(!openLocation)} className={`bg-white w-full cursor-pointer`} >
+                <span className='pr-20 text-[#686868]'>{location || "Preferred Location"}</span>
+                <span className='absolute lg:right-0'>
+                <img src={dropDown} alt='' width='24px' height='24px'/>
+                </span>
+              </button>
             </div>
+            {openLocation && (
+                <div className='absolute flex flex-col top-0 z-10 mt-8 lg:mt-16 w-full bg-white rounded-md shadow-md'>
+                  {Object.keys(locationOBj).map(item=>(
+                    <span key={item} className='p-4 transition-all hover:bg-[#F1F1F1] cursor-pointer' onClick={()=>{
+                      handleLocationFilter(item)
+                    }}>{item}</span>
+                  ))}
+                  </div>
+              )}
         </div>
         <span className='text-[48px] text-[#EAEAEA] font-extralight hidden lg:block'>|</span>
         <div className='flex items-center lg:gap-7 justify-center relative'>
@@ -82,7 +110,7 @@ function Filters() {
             <div className='flex w-[200px]'>
               <button onClick={()=>setOpen(!open)} className='bg-white w-full lg:w-[142px] cursor-pointer' >
                 <span className='pr-4 lg:pr-18 text-[#686868]'>{selected || "Job Type"}</span>
-                <span className='absolute lg:right-0 pointer-events-none'>
+                <span className='absolute lg:right-0'>
                 <img src={dropDown} alt='' width='24px' height='24px'/>
                 </span>
               </button>
@@ -90,24 +118,16 @@ function Filters() {
             {open && (
                 <div className='absolute flex flex-col top-0 z-10 mt-8 lg:mt-16 w-full bg-white rounded-md shadow-md'>
                   <span className='p-4 transition-all hover:bg-[#F1F1F1] cursor-pointer' onClick={()=>{
-                    setSelected('Full-time')
-                    setOpen(false)
-                    handleJobType()
+                    handleJobType('Full-time')
                   }}>Full-time</span>
                   <span className='p-4 transition-all hover:bg-[#F1F1F1] cursor-pointer' onClick={()=>{
-                    setSelected('Part-time')
-                    setOpen(false)
-                    handleJobType()
+                    handleJobType('Part-time')
                   }}>Part-time</span>
                   <span className='p-4 transition-all hover:bg-[#F1F1F1] cursor-pointer' onClick={()=>{
-                    setSelected('Contract')
-                    setOpen(false)
-                    handleJobType()
+                    handleJobType('Contract')
                   }}>Contract</span>
                   <span className='p-4 transition-all hover:bg-[#F1F1F1] cursor-pointer' onClick={()=>{
-                    setSelected('Internship')
-                    setOpen(false)
-                    handleJobType()
+                    handleJobType('Internship')
                   }}>Internship</span>
                   </div>
               )}

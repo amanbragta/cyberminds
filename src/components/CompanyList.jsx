@@ -11,7 +11,7 @@ function CompanyList() {
         }
     })
   return (
-    <div className='mt-[50px] mx-[64px] grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-center'>
+    <div className='mt-[50px] mx-[64px] grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-center mb-6'>
         {isLoading ? <h1 className='text-center text-2xl font-medium'>Loading...</h1>:<>
              {data?.data.map(item=>(
              <div key={item._id} className='flex-[0_1_calc(25%-8px)] min-w-[290px] max-w-[316px]'>

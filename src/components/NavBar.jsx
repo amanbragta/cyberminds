@@ -31,9 +31,9 @@ function NavBar() {
         onMutate:(value)=>{
             query.cancelQueries(['postings'])
             const prevData = query.getQueryData(['postings'])
-            console.log(value)
+            const newValue = {...value, image:'image%2077%20(1).png', salary:[value.salaryMin,value.salaryMax]}
             query.setQueryData(['postings'],(oldData)=>{
-                return {...oldData, data:[...oldData.data, value]}
+                return {...oldData, data:[...oldData.data, newValue]}
             })
             return prevData
         },
@@ -103,7 +103,7 @@ function NavBar() {
                 <span className='px-6 py-2'>Testimonials</span>
                 </div>
                 <div className='text-white text-center mt-10 text-nowrap'>
-                    <button onClick={()=>setOpen(true)} className='cursor-pointer bg-linear-to-t from-[#6100AD] to-[#A128FF] rounded-[30px] px-6 py-2 '>Create Jobs</button>
+                    <button onClick={()=>setOpen(true)} className='bg-linear-to-t from-[#6100AD] to-[#A128FF] rounded-[30px] px-6 py-2 cursor-pointer'>Create Jobs</button>
                 </div>
             </div>
             <div className='h-11 w-11'>
@@ -113,7 +113,7 @@ function NavBar() {
 
         {/* mainNav*/}
         <div className='hidden lg:flex text-[16px] mt-5 font-medium bg-white w-fit items-center justify-center border-[1px] border-[#FCFCFC] rounded-[122px] gap-6 py-2 px-4
-            shadow-md'>
+            drop-shadow-md'>
         <div className='h-11 w-11'>
             <img src={logo} className=''/>
         </div>
@@ -130,34 +130,34 @@ function NavBar() {
         </div>
         {open && (
             <div className='fixed z-20 inset-0 bg-[#00000080]/50 w-full h-full flex justify-center items-center'>
-                <div className='w-full lg:w-[848px] bg-white rounded-[16px] flex flex-col px-10 py-8 max-h-[100vh] overflow-y-auto'>
+                <div className='w-full lg:w-[848px] bg-white rounded-[16px] flex flex-col px-10 py-6 max-h-[85vh] overflow-y-auto'>
                     <div>
                         <h1 className='text-[20px] lg:text-[24px] font-medium text-center'>Create Job Opening</h1>
                     </div>
-                    <div className='flex gap-4 mt-15 flex-col lg:flex-row'>
+                    <div className='flex gap-4 mt-8 flex-col lg:flex-row'>
                         <div className='flex flex-col gap-2'>
-                        <div className='text-[20px] font-medium'><label>Job Title</label></div>
-                        <input type='text' {...formik.getFieldProps('jobTitle')} placeholder='Full Stack developer, Web Dev' className='border-[1px] border-[#BCBCBC] w-full lg:w-[376px] h-[58px] rounded-[10px] px-3
-                        focus:outline-none focus:border-[#222222] text-[18px] font-medium'/>
+                        <div className='text-[16px] font-medium'><label>Job Title</label></div>
+                        <input type='text' {...formik.getFieldProps('jobTitle')} placeholder='Full Stack developer, Web Dev' className='border-[1px] border-[#BCBCBC] w-full lg:w-[376px] h-[50px] rounded-[10px] px-3
+                        focus:outline-none focus:border-[#222222] text-[16px] font-medium'/>
                         {formik.touched.jobTitle && formik.errors.jobTitle && <span className='text-xs text-red-500'>{formik.errors.jobTitle}</span>}
                         </div>
                         <div className='flex flex-col gap-2'>
-                        <div className='text-[20px] font-medium'><label>Company Name</label></div>
-                        <input type='text' {...formik.getFieldProps('companyName')} placeholder='Amazon, Microsoft, Swiggy' className='border-[1px] border-[#BCBCBC] w-full lg:w-[376px] h-[58px] rounded-[10px] px-3
-                        focus:outline-none focus:border-[#222222] text-[18px] font-medium'/>
+                        <div className='text-[16px] font-medium'><label>Company Name</label></div>
+                        <input type='text' {...formik.getFieldProps('companyName')} placeholder='Amazon, Microsoft, Swiggy' className='border-[1px] border-[#BCBCBC] w-full lg:w-[376px] h-[50px] rounded-[10px] px-3
+                        focus:outline-none focus:border-[#222222] text-[16px] font-medium'/>
                          {formik.touched.companyName && formik.errors.companyName && <span className='text-xs text-red-500'>{formik.errors.companyName}</span>}
                         </div>
                     </div>
                     <div className='flex gap-4 mt-4 flex-col lg:flex-row'>
                         <div className='flex flex-col gap-2'>
-                        <div className='text-[20px] font-medium'><label>Location</label></div>
-                        <input type='text' {...formik.getFieldProps('location')} placeholder='Choose Preferred Location' className='border-[1px] border-[#BCBCBC] w-full lg:w-[376px] h-[58px] rounded-[10px] px-3
-                        focus:outline-none focus:border-[#222222] text-[18px] font-medium'/>
+                        <div className='text-[16px] font-medium'><label>Location</label></div>
+                        <input type='text' {...formik.getFieldProps('location')} placeholder='Choose Preferred Location' className='border-[1px] border-[#BCBCBC] w-full lg:w-[376px] h-[50px] rounded-[10px] px-3
+                        focus:outline-none focus:border-[#222222] text-[16px] font-medium'/>
                          {formik.touched.location && formik.errors.location && <span className='text-xs text-red-500'>{formik.errors.location}</span>}
                         </div>
                         <div className='flex flex-col gap-2 relative'>
-                        <div className='text-[20px] font-medium'><label>Job Type</label></div>
-                         <div className={`flex border-[1px] w-full lg:w-[376px] h-[58px] rounded-[10px] px-3
+                        <div className='text-[16px] font-medium'><label>Job Type</label></div>
+                         <div className={`flex border-[1px] w-full lg:w-[376px] h-[50px] rounded-[10px] px-3
                          ${dropDown? 'border-[#222222]': 'border-[#BCBCBC]'}`}>
                             <button onClick={()=>setDropDown(!dropDown)} className='bg-white cursor-pointer flex justify-between items-center w-full'>
                             <span className=' text-[#686868]'>{formik.values.jobType || "Job Type"}</span>
@@ -191,20 +191,20 @@ function NavBar() {
                     </div>
                     <div className='flex flex-col md:flex-row gap-4 mt-4 '>
                         <div className='flex flex-col gap-2'>
-                        <div className='text-[20px] font-medium'><label>Salary Range</label></div>
+                        <div className='text-[16px] font-medium'><label>Salary Range</label></div>
                         <div className='flex gap-2'>
                             <div className='relative'>
-                            <input type='text' {...formik.getFieldProps('salaryMin')} placeholder={`₹0`} className='border-[1px] border-[#BCBCBC] w-[183px] h-[58px] rounded-[10px] pl-10 pr-3
-                            focus:outline-none focus:border-[#222222] text-[18px] font-medium'/>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5 absolute top-5 left-3 text-[#686868]">
+                            <input type='text' {...formik.getFieldProps('salaryMin')} placeholder={`₹0`} className='border-[1px] border-[#BCBCBC] w-[183px] h-[50px] rounded-[10px] pl-10 pr-3
+                            focus:outline-none focus:border-[#222222] text-[16px] font-medium'/>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5 absolute top-4 left-3 text-[#686868]">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M3 7.5 7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
                             </svg>
                             {formik.touched.salaryMin && formik.errors.salaryMin && <span className='text-xs text-red-500'>{formik.errors.salaryMin}</span>}
                             </div>
                             <div className='relative'>
-                            <input type='text' {...formik.getFieldProps('salaryMax')} placeholder={`₹12,00,000`} className='border-[1px] border-[#BCBCBC] w-[183px] h-[58px] rounded-[10px] pl-10 pr-3
-                            focus:outline-none focus:border-[#222222] text-[18px] font-medium'/>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5 absolute top-5 left-3 text-[#686868]">
+                            <input type='text' {...formik.getFieldProps('salaryMax')} placeholder={`₹12,00,000`} className='border-[1px] border-[#BCBCBC] w-[183px] h-[50px] rounded-[10px] pl-10 pr-3
+                            focus:outline-none focus:border-[#222222] text-[16px] font-medium'/>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5 absolute top-4 left-3 text-[#686868]">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M3 7.5 7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
                             </svg>
                             {formik.touched.salaryMax && formik.errors.salaryMax && <span className='text-xs text-red-500'>{formik.errors.salaryMax}</span>}
@@ -212,8 +212,8 @@ function NavBar() {
                         </div>
                         </div>
                         <div className='flex flex-col gap-2 w-full'>
-                        <div className='text-[20px] font-medium'><label>Application Deadline</label></div>
-                            <div className={`flex border-[1px] w-full lg:w-[376px] h-[58px] rounded-[10px] px-3 relative
+                        <div className='text-[16px] font-medium'><label>Application Deadline</label></div>
+                            <div className={`flex border-[1px] w-full lg:w-[376px] h-[50px] rounded-[10px] px-3 relative
                             ${dropDown? 'border-[#222222]': 'border-[#BCBCBC]'}`}>
                                 <button onClick={()=>setDateDropDown(!dateDropDown)} className={`w-full cursor-pointer flex ${formik.values.deadline? "justify-between":"justify-end"} items-center`}>
                                 <span>{formik.values.deadline?formik.values.deadline.toLocaleDateString():""}</span>
@@ -243,16 +243,16 @@ function NavBar() {
                     <div>
                     <div className='flex gap-4 mt-4'>
                         <div className='flex flex-col gap-2 w-full'>
-                            <div className='text-[20px] font-medium'><label>Job Description</label></div>
-                            <textarea {...formik.getFieldProps('description')} placeholder='Please share a description to let the candidate know more about the job role' className='p-4 border-[1px] border-[#BCBCBC] rounded-[10px] w-full h-[169px]
+                            <div className='text-[16px] font-medium'><label>Job Description</label></div>
+                            <textarea {...formik.getFieldProps('description')} placeholder='Please share a description to let the candidate know more about the job role' className='p-4 border-[1px] border-[#BCBCBC] rounded-[10px] w-full h-[150px]
                             focus:outline-none focus:border-[#222222]'/>
                             </div>
                         </div>
                         {formik.touched.description && formik.errors.description && <span className='text-xs text-red-500'>{formik.errors.description}</span>}
                     </div>
-                    <div className='flex justify-between mt-10 text-[16px] md:text-[20px] font-medium'>
+                    <div className='flex justify-between mt-6 mb-2 text-[16px] md:text-[20px] font-medium'>
                         <div>
-                        <button onClick={()=>setOpen(false)} className='cursor-pointer w-[150px] md:w-[232px] h-[59px] border-[1.5px] border-[#222222] rounded-[10px] flex gap-2 justify-center items-center'>
+                        <button onClick={()=>setOpen(false)} className='cursor-pointer w-[150px] md:w-[200px] h-[50px] border-[1.5px] border-[#222222] rounded-[10px] flex gap-2 justify-center items-center'>
                                <span>Save Draft</span> 
                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 5.25 7.5 7.5 7.5-7.5m-15 6 7.5 7.5 7.5-7.5" />
@@ -261,7 +261,7 @@ function NavBar() {
                             </button>
                         </div>
                         <div>
-                            <button onClick={()=>formik.handleSubmit()} type='submit' className='cursor-pointer w-[150px] md:w-[232px] h-[59px] bg-[#00AAFF] rounded-[10px] flex gap-2 justify-center items-center text-white'>
+                            <button onClick={()=>formik.handleSubmit()} type='submit' className='cursor-pointer w-[150px] md:w-[200px] h-[50px] bg-[#00AAFF] rounded-[10px] flex gap-2 justify-center items-center text-white'>
                                <span>Publish</span> 
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />

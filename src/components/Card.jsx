@@ -31,10 +31,10 @@ function Card({details}) {
         <div className='flex justify-between'>
             <div className='h-[82px] w-[82px] bg-linear-to-t from-[#F1F1F1] to-[#FEFEFD] rounded-[13px] flex justify-center items-center
             border-[1px] border-white shadow-md'>
-            <IKImage src={details?.image} className={'w-[65px] h-[65px]'}/>
+            <IKImage src={details? details.image : null} className={'w-[65px] h-[65px]'}/>
             </div>
         <div className='text-center mt-[2px]'>
-        <span className='bg-[#B0D9FF] py-[6px] px-[10px] rounded-[10px] text-[14px]'>{format(details?.createdAt,'custom-en')}</span>
+        <span className='bg-[#B0D9FF] py-[6px] px-[10px] font-normal rounded-[10px] text-[14px]'>{format(details?.createdAt,'custom-en')}</span>
         </div>
         </div>
         <div className=''>
@@ -57,10 +57,10 @@ function Card({details}) {
                 </div>
                 <span className='text-nowrap'>{details?.salary? details.salary[1]/100000 : 12} LPA</span></div>
         </div>
-        <div className='text-[#555555] font-normal text-[14px]'>
-            <ul className='list-disc pl-5'>
-                {desc && desc.map(item=>(
-                    <li>{item}</li>
+        <div className='text-[#555555] font-normal text-[14px] h-[84px]'>
+            <ul className='list-disc pl-3'>
+                {desc && desc.map((item,index)=>(
+                    <li key={index}>{item}</li>
                 ))}
             </ul>
         </div>
